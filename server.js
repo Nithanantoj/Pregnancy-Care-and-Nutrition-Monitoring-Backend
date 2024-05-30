@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const pregnantWomenRoutes = require('./routes/pregnantwomen');
 const hospitalRoutes = require('./routes/hospital');
+const doctorRoutes = require('./routes/doctor')
 
 // Load environment variables from .env file
 dotenv.config();
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/pregnant-women', pregnantWomenRoutes);
 app.use('/api/hospital', hospitalRoutes);
+app.use('/api/doctors', doctorRoutes); 
 
 // Start the server
 const PORT = process.env.PORT || 5000;
