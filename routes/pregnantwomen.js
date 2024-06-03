@@ -2,11 +2,8 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
-const MedicalRecord = require('../Models/MedicalRecord');
 const Medication = require('../Models/Medication');
 const Nutrition = require('../Models/Nutrition');
-const Appointment = require('../Models/Appointment');
-const FamilyFriend = require('../Models/FamilyFriend');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
@@ -102,57 +99,5 @@ router.post('/login-pregnant-woman', async (req, res) => {
     }
 });
 
-// View medical records
-router.get('/medical-records', auth, async (req, res) => {
-    try {
-        const records = await MedicalRecord.find({ patient: req.user.id }).populate('doctor');
-        res.json(records);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
-    }
-});
 
-// View medication details
-router.get('/medications', auth, async (req, res) => {
-    try {
-        const medications = await Medication.find({ patient: req.user.id }).populate('doctor');
-        res.json(medications);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
-    }
-});
-
-// Add family/friend details
-router.post('/family-friends', auth, async (req, res) => {
-    try {
-        const { name, relationship, phone, email } = req.body;
-
-        const familyFriend = new FamilyFriend({
-            patient: req.user.id,
-            name,
-            relationship,
-            phone,
-            email
-        });
-
-        await familyFriend.save();
-        res.json({ msg: 'Family/Friend added successfully' });
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
-    }
-});
-
-// View family/friend details
-router.get('/family-friends', auth, async (req, res) => {
-    try {
-        const familyFriends = await FamilyFriend.find({ patient: req.user.id });
-        res.json(familyFriends);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
-    }
-});
 module.exports = router;

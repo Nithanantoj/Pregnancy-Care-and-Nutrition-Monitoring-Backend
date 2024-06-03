@@ -6,6 +6,10 @@ const hospitalRoutes = require('./routes/hospital');
 const doctorRoutes = require('./routes/doctor');
 const nutritionRoutes = require('./routes/nutrition');
 const appointmentRoutes = require('./routes/appointment');
+const profileRoutes = require('./routes/profile');
+const medicalRecordsRoutes = require('./routes/medicalRecords');
+const testResultRoutes = require('./routes/testResults');
+const medicationRoutes = require('./routes/medication');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -25,16 +29,16 @@ mongoose.connect(process.env.MONGODB_URI)
         console.error('Error connecting to MongoDB:', error.message);
     });
 
-// Define a simple route
-app.get('/', (req, res) => {
-    res.send('Hello, world!');
-});
 
 app.use('/api/pregnant-women', pregnantWomenRoutes);
 app.use('/api/hospital', hospitalRoutes);
 app.use('/api/doctors', doctorRoutes); 
 app.use('/api/nutrition', nutritionRoutes);
 app.use('/api/appointment', appointmentRoutes);
+app.use('/api/Profile', profileRoutes);
+app.use('/api/medical-records', medicalRecordsRoutes);
+app.use('/api/test-results', testResultRoutes);
+app.use('/api/medications', medicationRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
